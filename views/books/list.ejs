@@ -1,0 +1,36 @@
+<%- include('../partials/header', { title: title, user: user }) %>
+    <div class="container">
+        <h1><%= title %></h1>
+        
+        <div class="search-box">
+            <form action="/books/search" method="GET">
+                <input type="text" name="title" placeholder="Title" value="<%= typeof searchParams !== 'undefined' && searchParams.title || '' %>">
+<input type="text" name="author" placeholder="Author" value="<%= typeof searchParams !== 'undefined' && searchParams.author || '' %>">
+<input type="number" name="maxPrice" placeholder="Max Price" step="0.01" min="0" value="<%= typeof searchParams !== 'undefined' && searchParams.maxPrice || '' %>">
+                <button type="submit" class="btn">Search</button>
+            </form>
+        </div>
+        
+        <div class="book-grid">
+            <% books.forEach(book => { %>
+                <div class="book-card">
+                    <h3><%= book.title %></h3>
+                    <p class="author">by <%= book.author %></p>
+                    <p class="price">
+                        <% if (book.price === null) { %>
+                            Donated Book
+                        <% } else { %>
+                            $<%= book.price.toFixed(2) %>
+                        <% } %>
+                    </p>
+                    <p class="description"><%= book.description.substring(0, 100) %>...</p>
+                    <a href="/books/<%= book.id %>" class="btn">View Details</a>
+                </div>
+            <% }); %>
+        </div>
+        
+        <% if (books.length === 0) { %>
+            <p class="no-books">No books found. <% if (user) { %><a href="/books/add">Add a book</a><% } %></p>
+        <% } %>
+    </div>
+<%- include('../partials/footer') %>

@@ -1,0 +1,54 @@
+<%- include('../partials/header', { title: 'Add Book', user: user }) %>
+    <div class="container">
+        <h1>Add a Book</h1>
+        <% if (typeof error !== 'undefined' && error) { %>
+            <div class="alert error"><%= error %></div>
+          <% } %>
+        <form action="/books/add" method="POST">
+            <div class="form-group">
+                <label for="title">Title*</label>
+                <input type="text" id="title" name="title" value="<%= book && book.title %>" required>
+            </div>
+            <div class="form-group">
+                <label for="author">Author*</label>
+                <input type="text" id="author" name="author" value="<%= book && book.author %>" required>
+            </div>
+            <div class="form-group">
+                <label for="description">Description*</label>
+                <textarea id="description" name="description" required><%= book && book.description %></textarea>
+            </div>
+            <div class="form-group">
+                <label>Price Option*</label>
+                <div class="radio-group">
+                    <label>
+                        <input type="radio" name="price" value="donate" <%= !book || book.price === null ? 'checked' : '' %>>
+                        Donate (Free)
+                    </label>
+                    <label>
+                        <input type="radio" name="price" value="sell" <%= book && book.price !== null ? 'checked' : '' %>>
+                        Sell
+                    </label>
+                </div>
+                <input type="number" id="price-amount" name="priceAmount" step="0.01" min="0" 
+       placeholder="Enter price" <%= !book || book.price === null ? 'disabled' : '' %>
+       value="<%= book && book.price !== null ? book.price : '' %>">
+            </div>
+            <button type="submit" class="btn">Submit Book</button>
+        </form>
+    </div>
+    
+    <script>
+        document.querySelectorAll('input[name="price"]').forEach(radio => {
+  radio.addEventListener('change', function() {
+    const priceInput = document.getElementById('price-amount');
+    priceInput.disabled = this.value === 'donate';
+    if (this.value === 'donate') {
+      priceInput.value = '';
+      priceInput.removeAttribute('required');
+    } else {
+      priceInput.setAttribute('required', '');
+    }
+  });
+});
+    </script>
+<%- include('../partials/footer') %>

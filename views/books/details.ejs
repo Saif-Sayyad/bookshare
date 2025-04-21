@@ -1,0 +1,29 @@
+<%- include('../partials/header', { title: book.title, user: user }) %>
+    <div class="container book-details">
+        <div class="book-header">
+            <h1><%= book.title %></h1>
+            <p class="author">by <%= book.author %></p>
+            <p class="donor">Donated by: <%= book.donor %></p>
+            <p class="price">
+                <% if (book.price === null) { %>
+                    <span class="donated">Donated Book</span>
+                <% } else { %>
+                    Price: $<%= book.price.toFixed(2) %>
+                <% } %>
+            </p>
+        </div>
+        
+        <div class="book-description">
+            <h3>Description</h3>
+            <p><%= book.description %></p>
+        </div>
+        
+        <% if (user && user.id === book.user_id) { %>
+            <div class="book-actions">
+                <form action="/books/<%= book.id %>?_method=DELETE" method="POST">
+                    <button type="submit" class="btn danger">Remove Book</button>
+                </form>
+            </div>
+        <% } %>
+    </div>
+<%- include('../partials/footer') %>

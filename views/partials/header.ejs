@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %> | BookShare</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo">
+                <a href="/">BookShare</a>
+            </div>
+            <ul class="nav-links">
+                <li><a href="/">Find Books</a></li>
+                <% if (typeof user !== 'undefined' && user) { %>
+                    <li><a href="/books/add">Sell/Donate Books</a></li>
+                    <li><a href="/auth/logout">Logout (<%= user.username %>)</a></li>
+                  <% } else { %>
+                    <li><a href="/auth/login">Login</a></li>
+                    <li><a href="/auth/register">Register</a></li>
+                  <% } %>
+            </ul>
+        </nav>
+    </header>
+    <main>
